@@ -1,0 +1,128 @@
+[
+  {
+    "id": "m-ts-001",
+    "name": "Men's Cotton T-Shirt",
+    "category": "T-Shirts",
+    "gender": "Men",
+    "brand": "ApnaBasics",
+    "occasion": "Casual",
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black", "White", "Navy"],
+    "price": 499,
+    "originalPrice": 799,
+    "newArrival": true,
+    "popularity": 87,
+    "rating": 4.4,
+    "images": [
+      "/images/men_tshirt.jpg",
+      "/images/men_tshirt.svg"
+    ],
+    "fabric": "100% Cotton",
+    "care": "Machine wash cold"
+  },
+  {
+    "id": "w-ds-101",
+    "name": "Women's Summer Dress",
+    "category": "Dresses",
+    "gender": "Women",
+    "brand": "ApnaTrends",
+    "occasion": "Party",
+    "sizes": ["XS", "S", "M", "L"],
+    "colors": ["Red", "Blue"],
+    "price": 1299,
+    "originalPrice": 1999,
+    "newArrival": true,
+    "popularity": 92,
+    "rating": 4.6,
+    "images": [
+      "/images/women_dress.jpg",
+      "/images/women_dress.svg"
+    ],
+    "fabric": "Rayon",
+    "care": "Hand wash recommended"
+  },
+  {
+    "id": "k-jn-501",
+    "name": "Kids Stretch Jeans",
+    "category": "Jeans",
+    "gender": "Kids",
+    "brand": "ApnaKids",
+    "occasion": "Casual",
+    "sizes": ["2Y", "4Y", "6Y", "8Y"],
+    "colors": ["Blue"],
+    "price": 999,
+    "originalPrice": 1299,
+    "newArrival": false,
+    "popularity": 70,
+    "rating": 4.2,
+    "images": [
+      "/images/kids_jeans.jpg",
+      "/images/kids_jeans.svg"
+    ],
+    "fabric": "Denim",
+    "care": "Machine wash"
+  },
+  {
+    "id": "w-sa-301",
+    "name": "Women's Silk Saree",
+    "category": "Sarees",
+    "gender": "Women",
+    "brand": "ApnaEthnic",
+    "occasion": "Festive",
+    "sizes": ["Free"],
+    "colors": ["Green", "Magenta"],
+    "price": 12999,
+    "originalPrice": 15999,
+    "newArrival": false,
+    "popularity": 95,
+    "rating": 4.8,
+    "images": [
+      "/images/women_saree.jpg",
+      "/images/women_saree.svg"
+    ],
+    "fabric": "Silk",
+    "care": "Dry clean only"
+  },
+  {
+    "id": "m-sh-211",
+    "name": "Men's Formal Shirt",
+    "category": "Shirts",
+    "gender": "Men",
+    "brand": "ApnaOffice",
+    "occasion": "Party",
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Sky", "White"],
+    "price": 1299,
+    "originalPrice": 1899,
+    "newArrival": false,
+    "popularity": 83,
+    "rating": 4.5,
+    "images": [
+      "/images/men_shirt.jpg",
+      "/images/men_shirt.svg"
+    ],
+    "fabric": "Cotton Blend",
+    "care": "Machine wash warm"
+  },
+  {
+    "id": "w-ku-401",
+    "name": "Women's Printed Kurta",
+    "category": "Kurtas",
+    "gender": "Women",
+    "brand": "ApnaEthnic",
+    "occasion": "Festive",
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Yellow", "Pink", "Maroon"],
+    "price": 899,
+    "originalPrice": 1299,
+    "newArrival": true,
+    "popularity": 78,
+    "rating": 4.3,
+    "images": [
+      "/images/women_kurta.jpg",
+      "/images/women_kurta.svg"
+    ],
+    "fabric": "Cotton",
+    "care": "Hand wash"
+  }
+]

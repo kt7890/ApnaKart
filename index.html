@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>APNAKART — Hyperlocal Clothing (Frontend)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/2456/2456702.png" alt="APNAKART Logo" class="logo-img">
+      <h1 class="logo">APNAKART</h1>
+    </div>
+    <nav>
+      <button data-view="home" class="navbtn active"><i class="fas fa-home"></i> Home</button>
+      <button data-view="seller" class="navbtn"><i class="fas fa-store"></i> Seller</button>
+      <button data-view="delivery" class="navbtn"><i class="fas fa-shipping-fast"></i> Delivery</button>
+      <button id="cartBtn" class="cartbtn">
+        <i class="fas fa-shopping-cart"></i> 
+        Cart (<span id="cartCount">0</span>)
+      </button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- app views are injected by JS -->
+  </main>
+
+  <!-- Templates -->
+  <template id="homeTpl">
+    <section class="banner">
+      <div class="banner-image">
+        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Fashion Delivery">
+      </div>
+      <div class="banner-overlay">
+        <div class="banner-text">
+          <h2>Fast Local Fashion — Delivered in 30–40 min*</h2>
+          <p class="banner-subtitle">Shop from local stores in your neighborhood</p>
+          <div class="features">
+            <div class="feature">
+              <i class="fas fa-bolt"></i>
+              <span>Super Fast Delivery</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-store"></i>
+              <span>Local Stores</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-rupee-sign"></i>
+              <span>Best Prices</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories">
+      <h3><i class="fas fa-th-large"></i> Categories</h3>
+      <div id="categoryList" class="grid">
+        <!-- Categories will be populated by JS -->
+      </div>
+    </section>
+
+    <section class="trending">
+      <div class="section-header">
+        <h3><i class="fas fa-fire"></i> Trending Now</h3>
+        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div id="productGrid" class="grid"></div>
+    </section>
+  </template>
+
+  <template id="categoryTpl">
+    <div class="category-card">
+      <div class="category-img">
+        <img src="" alt="category">
+      </div>
+      <h4 class="category-name"></h4>
+    </div>
+  </template>
+
+  <template id="productTpl">
+    <div class="product-card">
+      <div class="product-badge">Local</div>
+      <div class="imgwrap">
+        <img src="" alt="product image" class="product-img"/>
+      </div>
+      <div class="product-body">
+        <h4 class="pname"></h4>
+        <div class="price-rating">
+          <p class="price"></p>
+          <div class="rating">
+            <i class="fas fa-star"></i>
+            <span>4.2</span>
+          </div>
+        </div>
+        <div class="sizes" data-sizes></div>
+        <button class="addCart"><i class="fas fa-cart-plus"></i> Add to cart</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="productDetailTpl">
+    <section class="product-detail">
+      <div class="left">
+        <div class="image-gallery">
+          <img id="detailImg" src="" alt="product" class="main-image" />
+          <div class="thumbnails">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="thumbnail1">
+            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="thumbnail2">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="thumbnail3">
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="product-header">
+          <h2 id="detailName"></h2>
+          <div class="store-info">
+            <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="store" class="store-icon">
+            <span>Local Fashion Store</span>
+          </div>
+        </div>
+        <div class="price-section">
+          <p id="detailPrice" class="price-main"></p>
+          <p class="price-old">₹<span id="oldPrice">999</span></p>
+          <span class="discount">20% off</span>
+        </div>
+        <div class="rating-section">
+          <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span>4.2 (120 reviews)</span>
+          </div>
+        </div>
+        <div class="size-section">
+          <h4>Select Size</h4>
+          <div id="detailSizes" class="sizes"></div>
+        </div>
+        <div id="stockInfo" class="stockinfo">
+          <i class="fas fa-check-circle"></i>
+          <span>In stock • Delivery in 30-40 min</span>
+        </div>
+        <div class="action-buttons">
+          <button id="addToCartDetail" class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+          <button class="btn-buy"><i class="fas fa-bolt"></i> Buy Now</button>
+        </div>
+        <div class="product-features">
+          <div class="feature">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+              <strong>Quality Assured</strong>
+              <p>100% quality check by local store</p>
+            </div>
+          </div>
+          <div class="feature">
+            <i class="fas fa-sync-alt"></i>
+            <div>
+              <strong>Easy Returns</strong>
+              <p>7-day return policy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="cartTpl">
+    <section class="cart">
+      <div class="cart-header">
+        <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+        <button class="btn-clear">Clear All</button>
+      </div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>₹<span id="subtotal">0</span></span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery</span>
+          <span class="free">FREE</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>₹<span id="cartTotal">0</span></span>
+        </div>
+        <button id="checkoutBtn" class="primary">
+          <i class="fas fa-lock"></i> Proceed to Checkout
+        </button>
+      </div>
+    </section>
+  </template>
+
+  <template id="checkoutTpl">
+    <section class="checkout">
+      <h2><i class="fas fa-shopping-bag"></i> Checkout (Simulated)</h2>
+      
+      <div class="checkout-steps">
+        <div class="step active">1. Address</div>
+        <div class="step">2. Payment</div>
+        <div class="step">3. Confirm</div>
+      </div>
+
+      <div class="address-section">
+        <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+        <div class="address-card selected">
+          <div class="address-header">
+            <h4>Home</h4>
+            <span class="default-badge">Default</span>
+          </div>
+          <p>123 Main Street, Local Colony</p>
+          <p>New Delhi, Delhi 110001</p>
+          <p class="contact">Phone: +91 9876543210</p>
+          <button class="btn-edit">Edit</button>
+        </div>
+        <div class="addr">
+          <label>Or enter new address:</label>
+          <textarea id="addrInput" placeholder="Enter complete delivery address..."></textarea>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <h3><i class="fas fa-credit-card"></i> Choose Payment Method</h3>
+        <div class="payment-options">
+          <label class="payment-option selected">
+            <input type="radio" name="pay" value="cod" checked>
+            <div class="payment-content">
+              <i class="fas fa-money-bill-wave"></i>
+              <div>
+                <strong>Cash on Delivery</strong>
+                <p>Pay when you receive</p>
+              </div>
+            </div>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="pay" value="card">
+            <div class="payment-content">
+              <i class="fas fa-credit-card"></i>
+              <div>
+                <strong>Credit/Debit Card</strong>
+                <p>Visa, Mastercard, RuPay</p>
+              </div>
+            </div>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="pay" value="upi">
+            <div class="payment-content">
+              <i class="fas fa-qrcode"></i>
+              <div>
+                <strong>UPI</strong>
+                <p>Google Pay, PhonePe, Paytm</p>
+              </div>
+            </div>
+          </label>
+        </div>
+        
+        <div id="upiQR" class="qrbox hidden">
+          <div class="qr-container">
+            <img src="QR.jpg" alt="UPI QR Code">
+            <p>Scan to pay via UPI</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-items"></div>
+        <div class="final-total">
+          <span>Total Amount</span>
+          <span class="amount">₹<span id="checkoutTotal">0</span></span>
+        </div>
+      </div>
+
+      <button id="placeOrder" class="primary">
+        <i class="fas fa-check-circle"></i> Place Order
+      </button>
+    </section>
+  </template>
+
+  <template id="orderTrackTpl">
+    <section class="order-track">
+      <div class="track-header">
+        <h2><i class="fas fa-map-marker-alt"></i> Order Tracking</h2>
+        <div class="order-info">
+          <p>Order #APK<span id="orderNumber">789456</span></p>
+          <p class="est-time">Estimated Delivery: 40 min</p>
+        </div>
+      </div>
+      
+      <div id="track" class="tracker">
+        <div class="step active" data-step="placed">
+          <div class="dot"><i class="fas fa-check"></i></div>
+          <p>Order Placed</p>
+          <span class="time">2:30 PM</span>
+        </div>
+        <div class="step" data-step="accepted">
+          <div class="dot"></div>
+          <p>Seller Accepted</p>
+          <span class="time">2:32 PM</span>
+        </div>
+        <div class="step" data-step="packed">
+          <div class="dot"></div>
+          <p>Packed</p>
+          <span class="time">--:--</span>
+        </div>
+        <div class="step" data-step="out">
+          <div class="dot"></div>
+          <p>Out for Delivery</p>
+          <span class="time">--:--</span>
+        </div>
+        <div class="step" data-step="delivered">
+          <div class="dot"></div>
+          <p>Delivered</p>
+          <span class="time">--:--</span>
+        </div>
+      </div>
+      
+      <div class="delivery-info">
+        <div class="delivery-person">
+          <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Delivery Person">
+          <div>
+            <strong>Rahul Kumar</strong>
+            <p>Your delivery partner</p>
+            <p class="vehicle"><i class="fas fa-motorcycle"></i> Bike • APK123</p>
+          </div>
+        </div>
+        <button class="btn-call"><i class="fas fa-phone"></i> Call</button>
+      </div>
+      
+      <div class="track-controls">
+        <button id="advanceTrack" class="btn-track">
+          <i class="fas fa-forward"></i> Advance Status
+        </button>
+        <button class="btn-help">
+          <i class="fas fa-question-circle"></i> Need Help?
+        </button>
+      </div>
+    </section>
+  </template>
+
+  <template id="sellerTpl">
+    <section class="seller">
+      <div class="seller-header">
+        <h2><i class="fas fa-store"></i> Seller Panel</h2>
+        <div class="seller-stats">
+          <div class="stat">
+            <i class="fas fa-box"></i>
+            <span>24 Products</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-rupee-sign"></i>
+            <span>₹24,580 Revenue</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-star"></i>
+            <span>4.5 Rating</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="seller-grid">
+        <form id="addProductForm" class="add-product-form">
+          <h3><i class="fas fa-plus-circle"></i> Add New Product</h3>
+          <div class="form-group">
+            <label>Product Name</label>
+            <input id="pname" placeholder="e.g., Men's Casual Shirt" required/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Price (₹)</label>
+              <input id="pprice" placeholder="599" type="number" required/>
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select>
+                <option>Men's Wear</option>
+                <option>Women's Wear</option>
+                <option>Kids</option>
+                <option>Accessories</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input id="pimg" placeholder="https://example.com/image.jpg" />
+          </div>
+          <div class="form-group">
+            <label>Sizes & Stock (e.g., S:5,M:10,L:8)</label>
+            <input id="psizes" placeholder="S:5,M:10,L:8,XL:3" />
+          </div>
+          <button type="submit" class="btn-submit">
+            <i class="fas fa-plus"></i> Add Product
+          </button>
+          <p class="note">Note: Sorry</p>
+        </form>
+        
+        <div id="sellerList" class="product-list">
+          <div class="list-header">
+            <h4><i class="fas fa-list"></i> Your Products</h4>
+            <input type="text" placeholder="Search products..." class="search-input">
+          </div>
+          <div id="sellerProducts" class="products-grid"></div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="deliveryTpl">
+    <section class="delivery">
+      <div class="delivery-header">
+        <h2><i class="fas fa-shipping-fast"></i> Delivery Partner Dashboard</h2>
+        <div class="delivery-stats">
+          <div class="stat">
+            <i class="fas fa-clipboard-list"></i>
+            <span>5 Assigned</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-check-circle"></i>
+            <span>12 Delivered</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-clock"></i>
+            <span>38 min Avg</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="delivery-content">
+        <div class="assigned-orders">
+          <h3><i class="fas fa-tasks"></i> Assigned Orders</h3>
+          <div id="assignedList" class="orders-list"></div>
+        </div>
+        
+        <div class="map-section">
+          <h3><i class="fas fa-map"></i> Delivery Map</h3>
+          <div class="mapmock">
+            <div class="map-container">
+              <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Map View">
+              <div class="map-overlay">
+                <div class="location-marker">
+                  <i class="fas fa-store"></i>
+                  <span>Pickup</span>
+                </div>
+                <div class="location-marker">
+                  <i class="fas fa-home"></i>
+                  <span>Delivery</span>
+                </div>
+                <div class="location-marker delivery-bike">
+                  <i class="fas fa-motorcycle"></i>
+                  <span>You</span>
+                </div>
+              </div>
+            </div>
+            <div class="map-controls">
+              <button><i class="fas fa-directions"></i> Get Directions</button>
+              <button><i class="fas fa-phone"></i> Call Customer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="orderItemTpl">
+    <div class="order-item">
+      <img class="order-img" src="" alt="">
+      <div class="order-info">
+        <h4 class="order-name"></h4>
+        <p class="order-price"></p>
+        <p class="order-size"></p>
+      </div>
+      <div class="order-status">
+        <span class="status-badge"></span>
+        <button class="btn-action"></button>
+      </div>
+    </div>
+  </template>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Product added to cart!</span>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>APNAKART</h4>
+        <p>Hyperlocal fashion delivery</p>
+        <p>Delivering happiness in 30-40 minutes!</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="footer-section">
+        <h4>Download App</h4>
+        <div class="app-badges">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store">
+        </div>
+      </div>
+    </div>
+    <p class="footer-copyright">© 2025 APNAKART. All rights reserved.</p>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
